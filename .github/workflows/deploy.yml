@@ -1,0 +1,35 @@
+name: terraform
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  terraform:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Security Scan
+        uses: aquasecurity/tfsec-action@v1.0.0
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Test Placeholder
+        run: echo "Run test_script.py here"
