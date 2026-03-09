@@ -13,6 +13,8 @@ module "stack_us" {
   email            = var.email
   repo_url         = var.repo_url
   sns_topic        = var.sns_topic
+  cognito_user_pool_id = module.cognito.cognito_user_pool_id
+  cognito_user_pool_client_id = module.cognito.cognito_user_pool_client_id
 
   providers = {
     aws = aws
@@ -28,6 +30,8 @@ module "stack_eu" {
   email            = var.email
   repo_url         = var.repo_url
   sns_topic        = var.sns_topic
+  cognito_user_pool_id = module.cognito.cognito_user_pool_id
+  cognito_user_pool_client_id = module.cognito.cognito_user_pool_client_id
 
   providers = {
     aws = aws.eu
