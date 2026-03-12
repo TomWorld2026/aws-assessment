@@ -12,6 +12,49 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+resource "aws_iam_policy" "lambda_permissions" {
+
+  name = "lambda-app-permissions"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:PutItem"
+        ]
+        Resource = aws_dynamodb_table.greetings.arn
+      },
+
+      {
+        Effect = "Allow"
+        Action = [
+          "sns:Publish"
+        ]
+        Resource = aws_sns_topic.notifications.arn
+      },
+
+      {
+        Effect = "Allow"
+        Action = [
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ]
+        Resource = aws_kms_key.main.arn
+      }
+
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_permissions_attach" {
+
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.lambda_permissions.arn
+}
+
 resource "aws_iam_role_policy_attachment" "basic" {
 
   role       = aws_iam_role.lambda_role.name
