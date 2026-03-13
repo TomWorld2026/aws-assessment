@@ -53,6 +53,13 @@ resource "aws_s3_bucket" "vpc_flow_logs" {
   bucket = "ydd-vpc-flow-logs-${var.region}"
 }
 
+resource "aws_s3_bucket_versioning" "versioning_vpc_flow_logs" {
+  bucket = aws_s3_bucket.vpc_flow_logs.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "vpc_flow_logs_block" {
   bucket = aws_s3_bucket.vpc_flow_logs.id
 
